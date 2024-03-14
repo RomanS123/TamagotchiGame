@@ -7,4 +7,6 @@ class Window {
 	Renderer renderer;
 
 	void Render(std::string component_name, void* callee);
+
+	void AddComponent(std::string component_name, Component* component);
 }
