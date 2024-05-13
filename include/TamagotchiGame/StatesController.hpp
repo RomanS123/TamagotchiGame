@@ -1,14 +1,19 @@
 #include <unordered_map>
 #include <functional>
 #include <concepts>
+#include <TamagotchiGame/AbstractObserver.hpp>
+#include <list>
 
-class StatesObserver {
-	std::unordered_map<void*, std::function<void()>> mapping_;
+class StatesController: public AbstractObserver {
+	std::unordered_map<void*, std::list<std::function<void()>>> mapping_;
+	static constexpr StatesController* instance_ = nullptr;
 	
+	StatesController() = default;
+
+	public:
+	static StatesController* GetInstance();
+
 	void AddAction(void* object, std::function<void()> action);
 
-	//accepts multiple handlers
-	template<std::invocable... Args>
-	void AddAction(void* object, Args... args);
-	
+	void Update(void* callee) override;
 };
