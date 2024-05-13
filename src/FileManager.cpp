@@ -1,20 +1,27 @@
 #include <TamagotchiGame/FileManager.hpp>
 #include <fstream>
-#include <jsoncpp/jsoncpp.cpp>
+#include <jsoncpp/json/json.h>
 #include <string>
 
-class FileManager {
-  static Json::Value ReadJson(std::string filename) {
-    std::ifstream file(filename, std::ifstream::binary);
-    Json::Value json;
-    file >> json;
-    return json;
-  }
+auto GetJsonWriter() {
+  Json::StreamWriterBuilder builder;
+  builder["commentStyle"] = "None";
+  builder["indentation"] = "	";
 
-  static void WriteJson(std::string filename, Json::Value json) {
-    std::ofstream file;
-    file.open(filename);
-    auto writer = GetJsonWriter();
-    writer.write(json, &file);
-  }
-};
+  std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+  return writer;
+}
+
+Json::Value FileManager::ReadJson(std::string filename) {
+  std::ifstream file(filename, std::ifstream::binary);
+  Json::Value json;
+  file >> json;
+  return json;
+}
+
+void FileManager::WriteJson(std::string filename, Json::Value json) {
+  std::ofstream file;
+  file.open(filename);
+  auto writer = GetJsonWriter();
+  writer->write(json, &file);
+}
