@@ -8,6 +8,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 # Add the FetchContent module
 include(FetchContent)
+include(ExternalProject)
 
 # Download and configure libpqxx
 FetchContent_Declare(
@@ -15,8 +16,6 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/jtv/libpqxx.git
   GIT_TAG 7.6.0  # Specify the desired version here
 )
-
-FetchContent_MakeAvailable(libpqxx)
 
 add_custom_target(CreateNecessaryFiles
     COMMAND python3 ${CMAKE_SOURCE_DIR}/src/create_files.py
@@ -39,23 +38,19 @@ add_executable(main ${source_files})
 add_dependencies(main CreateNecessaryFiles)
 add_dependencies(main run_postgres)
 
-target_include_directories(main 
+target_include_directories(main
     PUBLIC ${CMAKE_SOURCE_DIR}/libs
     PUBLIC ${CMAKE_SOURCE_DIR}/include
+    PUBLIC ${CMAKE_BINARY_DIR}/postgresql/include
 )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build")
 
 # Link libraries to main executable
-target_link_libraries(main 
-    PUBLIC DisplayLib 
-    PUBLIC jsoncpp 
-    PUBLIC pqxx 
-    PUBLIC pq 
+target_link_libraries(main
+    PUBLIC DisplayLib
+    PUBLIC jsoncpp
+    PUBLIC pqxx
+	PUBLIC pq
 )
-
-# Ensure PostgreSQL client library is available
-find_package(PostgreSQL REQUIRED)
-target_include_directories(main PUBLIC ${PostgreSQL_INCLUDE_DIRS})
-target_link_libraries(main PUBLIC ${PostgreSQL_LIBRARIES})
 

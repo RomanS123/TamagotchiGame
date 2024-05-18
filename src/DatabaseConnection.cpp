@@ -22,7 +22,7 @@ void DatabaseConnection::SetConnection() {
 
 
 void DatabaseConnection::Disconnect() {
-	conn->close();
+	//conn->close();
 }
 
 pqxx::result DatabaseConnection::Query(std::string strSQL){
