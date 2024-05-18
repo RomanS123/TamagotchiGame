@@ -1,13 +1,43 @@
+version: '3.8'
+
 services:
   postgres:
     image: postgres:latest
-    container_name: tamagotchi_db
-    ports:
-      - 5432:5432
-    volumes:
-      - ./init-scripts:/docker-entrypoint-initdb.d
-      - ~/apps/postgres:/var/lib/postgresql/data
+    container_name: postgres_container
+    networks:
+      - mynetwork
     environment:
-      - POSTGRES_DB=tamagotchi_db
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=abcd
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: abc
+      POSTGRES_DB: tamagotchi_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: ../app
+    container_name: cpp_app_container
+    networks:
+      - mynetwork
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: abc
+      DB_NAME: tamagotchi_db
+
+networks:
+  mynetwork:
+    driver: bridge

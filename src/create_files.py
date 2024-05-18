@@ -9,4 +9,8 @@ except:
 
 f = open(os.path.join(new_dir, "user.json"), "w");
 f.write("{}")
+
+f = open(os.path.join(new_dir, "inventory.json"), "w");
+f.write("{}")
+
 f.close();

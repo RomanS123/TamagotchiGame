@@ -16,6 +16,7 @@ Json::Value FileManager::ReadJson(std::string filename) {
   std::ifstream file(filename, std::ifstream::binary);
   Json::Value json;
   file >> json;
+  file.close();
   return json;
 }
 
@@ -24,4 +25,5 @@ void FileManager::WriteJson(std::string filename, Json::Value json) {
   file.open(filename);
   auto writer = GetJsonWriter();
   writer->write(json, &file);
+  file.close();
 }

@@ -1,6 +1,8 @@
 #include <TamagotchiGame/StatesController.hpp>
 #include <functional>
 
+StatesController* StatesController::instance_ = nullptr;
+
 StatesController* StatesController::GetInstance() {
 	if(instance_ == nullptr) {
 		instance_ = new StatesController();
@@ -17,4 +19,8 @@ void StatesController::Update(void* callee) {
 	for(auto& callback : mapping_[callee]) {
 		callback();
 	}
+}
+
+void StatesController::Clear() {
+	mapping_.clear();
 }

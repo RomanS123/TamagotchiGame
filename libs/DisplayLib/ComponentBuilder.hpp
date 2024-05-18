@@ -1,11 +1,10 @@
 template <typename T>
 class ComponentBuilder {
   T* component_ = nullptr;
-	bool retrieved_ = true;
+  bool retrieved_ = true;
+
  public:
-  ComponentBuilder() {
-	Reset();
-  }
+  ComponentBuilder() { Reset(); }
 
   ComponentBuilder<T>& SetPosition(uint32_t x, uint32_t y) {
     component_->SetPosition(x, y);
@@ -18,16 +17,12 @@ class ComponentBuilder {
   }
 
   T* Build() {
-	  T* ptr = component_;
-	  Reset();
-	  return ptr; 
+    T* ptr = component_;
+    Reset();
+    return ptr;
   }
-	
-  void Reset() {
-		component_ = new T();
-	}
 
-  ~ComponentBuilder() {
-	delete component_;
-  }
+  void Reset() { component_ = new T(); }
+
+  ~ComponentBuilder() { delete component_; }
 };

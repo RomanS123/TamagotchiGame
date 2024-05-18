@@ -1,7 +1,10 @@
 CREATE TABLE users (
-	id INT PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	coins INT,
 	food INT,
 	happiness INT,
-	last_login TIMESTAMP
+	hp INT,
+	sleep INT,
+	state INT,
+	last_login INT
 );

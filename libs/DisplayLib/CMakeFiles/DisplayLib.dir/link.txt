@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libDisplayLib.so -o ../../lib/libDisplayLib.so CMakeFiles/DisplayLib.dir/RendererASCII.cpp.o 

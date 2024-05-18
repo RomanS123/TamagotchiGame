@@ -1,14 +1,23 @@
 #include <pqxx/pqxx>
 #include <TamagotchiGame/DatabaseConnection.hpp>
+#include <string>
+#include <iostream>
 
 void DatabaseConnection::SetConnection() {
-	conn=new pqxx::connection(
-            "username=postgres"
-            "host=127.0.0.1"
-            "password=abc"
-            "dbname=tamagotchi_db"
-			"port=5432"
-			);
+	std::string db_host = "localhost";
+	std::string db_user = "postgres";
+	std::string db_password = "abc";
+	std::string db_name = "postgres";
+	std::string port = "5432";
+
+	/*std::string host = "localhost";
+        int port = 5432;
+        std::string database = "postgres";
+        std::string user = "postgres";
+        std::string password = "abc";
+	*/
+        conn = new pqxx::connection("dbname=" + std::string(db_name) + " user=" + std::string(db_user) +
+                              " password=" + std::string(db_password) + " port="+ port +" host=" + std::string(db_host));
 }
 
 

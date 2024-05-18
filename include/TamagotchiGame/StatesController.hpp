@@ -6,7 +6,7 @@
 
 class StatesController: public AbstractObserver {
 	std::unordered_map<void*, std::list<std::function<void()>>> mapping_;
-	static constexpr StatesController* instance_ = nullptr;
+	static StatesController* instance_;
 	
 	StatesController() = default;
 
@@ -16,4 +16,6 @@ class StatesController: public AbstractObserver {
 	void AddAction(void* object, std::function<void()> action);
 
 	void Update(void* callee) override;
+
+	void Clear();
 };
