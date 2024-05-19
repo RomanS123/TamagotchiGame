@@ -22,7 +22,7 @@ add_custom_target(run_postgres
 FetchContent_Declare(
   pqxx
   GIT_REPOSITORY https://github.com/jtv/libpqxx.git
-  GIT_TAG 7.6.0  # Specify the desired version here
+  GIT_TAG 7.9.0  # Specify the desired version here
 )
 
 FetchContent_MakeAvailable(pqxx)
